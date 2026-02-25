@@ -1,5 +1,21 @@
 import re
-raw_numbers = [
+
+
+def normalize_phone(phone_number: str)->list:
+    """
+    Приводить телефонний номер до формату +380xxxxxxxxx 
+    """
+    #Видаляємо всі символи окрім цифр 
+    clean_num = re.sub(r"\D", "", phone_number) 
+
+    #якщо код країни вже є додаємо лише +
+    if clean_num.startswith("380"):
+        return f"+{clean_num}"
+    else:
+        return f"+38{clean_num}"
+    
+if __name__ == "__main__":
+    raw_numbers = [
     "067\\t123 4567",
     "(095) 234-5678\\n",
     "+380 44 123 4567",
@@ -8,13 +24,6 @@ raw_numbers = [
     "     0503451234",
     "(050)8889900",
     "38050-111-22-22",
-    "38050 111 22 11   ",
-]
-def normalize_phone(phone_number):
-    clean_num = re.sub(r"\D", "", phone_number) 
-    if clean_num.startswith("380"):
-        return f"+{clean_num}"
-    else:
-        return f"+38{clean_num}"
-sanitized_numbers = [normalize_phone(num) for num in raw_numbers]
-print("Нормалізовані номери телефонів для SMS-розсилки:", sanitized_numbers)
+    "38050 111 22 11   ",]
+    sanitized_numbers = [normalize_phone(num) for num in raw_numbers]
+    print("Нормалізовані номери телефонів для SMS-розсилки:", sanitized_numbers)
